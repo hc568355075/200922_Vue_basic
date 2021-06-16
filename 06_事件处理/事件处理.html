@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件处理</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>欢迎来到{{school}}学习</h2>
+        <!-- 绑定事件   ---标准方式 -->
+        <button v-on:click="show1">点我打印信息(v-on绑定)</button>
+        <br><br>
+        <!-- 绑定事件   ---简写方式 -->
+        <button @click='show1'>点位打印信息(@绑定)</button>
+        <br><br>
+        <!-- 绑定事件   ---传递参数 -->
+        <button @click='show2($event,666)'>点位打印信息 + 传递参数(@绑定)</button>
+        <br><br>
+        <!-- 绑定事件   ---阻止默认行为，prevent叫做事件修饰符 -->
+        <a href="https://www.baidu.com" @click.prevent='show3'>点我提示 + 阻止默认行为</a>
+        <br><br>
+        <!-- 绑定事件   ---阻止冒泡, stop也是事件修饰符 ，事件修饰符可以连写,且顺序可以随意改变 -->
+        <div @click='show4'> 
+            <a href="https://www.baidu.com" @click.stop.prevent='show4'>点我提示 + 阻止冒泡</a>a
+        </div>
+        <br><br>
+        <!-- 键盘事件 -->
+        <!-- <input type="text" @keyup.enter='show5' placeholder="按下回车提示数据"> -->
+        <!-- <input type="text" @keyup.37='show5' placeholder="按下右键提示数据"> -->
+        <input type="text" @keyup.esc='show5' placeholder="按下ESC提示数据">
+    </div>
+    <script>
+        new Vue({
+            el:'#root',
+            data:{ //配置数据
+                school:'尚硅谷',
+            },
+            methods: { //用于配置方法
+                show1(event){//此处一定不要写成箭头函数，否则this就是Window了
+                    console.log('您需要的信息都在这里!',event.target.innerText);
+                    console.log(this.school);
+                },
+                show2(event,a){
+                    console.log('您需要的信息都在这里');
+                    console.log(event,a);
+                },
+                show3(event){
+                    // event.preventDefault();  靠程序员手动阻止莫默认行为
+                    alert('信息')
+                },
+                show4(event){
+                    // event.stopPropagation();    靠程序员手动阻止冒泡
+                    alert('信息')
+                },
+                show5(event){
+                    console.log(event.target.value);
+                    console.log(event.keyCode);
+                }
+            },
+        })
+    </script>
+</body>
+</html>

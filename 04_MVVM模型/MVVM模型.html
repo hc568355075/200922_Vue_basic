@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        总结:
+            MVVM的理解:
+                1.M: 模型(Model): 对应data中的数据
+                2.V: 视图(view): 模板代码
+                3.VM: 视图模型(ViewModel): Vue实例对象
+
+            扩展说明:
+                1.el有两种写法:
+                    (1).new Vue时候直接传递el属性   ---常用
+                    (2).通过vm.$mount('#root')指定容器  ---不常用
+                2.data有两种书写:
+                    (1).对象式：非组件编码是可以写对象，也可以写函数
+                    (2).函数式：组件化编码必须使用函数式的data
+     -->
+     <!-- 定义一个容器 -->
+    <div id="root">
+        <h2>Hello,{{msg}}</h2>
+        <h2>地址是:{{address}} </h2>
+    </div>
+    <script>
+        // el的第一种写法(常用)
+        // const vm = new Vue({
+        //     el:'#root',
+        //     data:{
+        //         msg:"尚硅谷",
+        //         address:"某某地方"
+        //     }
+        // })
+
+        // el的第二种(不常用)
+        // const vm = new Vue({
+        //     data:{
+        //         msg:"尚硅谷",
+        //         address:"某某地方"
+        //     }
+        // })
+        // vm.$mount("#root")
+
+        // data的第一种写法，data是一个对象
+        // const vm = new Vue({
+        //      el:'#root',
+        //      data:{
+        //         msg:"尚硅谷",
+        //          address:"某某地方"
+        //      }
+        //  })
+
+        //  data的第二种写法，data是一个函数，且要返回数据对象 (组件中必须用函数式data)
+        const vm = new Vue({
+             el:'#root',
+             data(){//特别注意：data不要写成箭头函数，要写成普通函数，否则this的指向就是Window，而不是Vue的实例对象
+                 return{
+                    msg:"尚硅谷",
+                    address:"某某地方"
+                 }
+             }
+         })
+         
+        //  观察发现:通过vm能看到data中的属性(注意不是看到data)
+         setTimeout(() => {
+             console.log(vm.msg);//通过vm可以读取data中的数据
+             vm.msg = 'atiguigu'//通过vm可以修改data中的数据，且修改后页面会自动更新
+         }, 1000);
+    </script>
+</body>
+</html>

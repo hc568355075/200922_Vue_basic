@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>初识Vue</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <!-- 
+    总结:
+      1.<div id="root">是一个容器，容器中写的不是原始html,而是Vue的模板代码
+      2.所谓的模板代码，类似于React中的jsx，是html+js混合体
+      3.{{xxx}},xxx会自动读取data中的xxx属性
+   -->
+  <!-- 准备好一个容器， -->
+  <div id="root">
+    <h1>hello,{{school.name.toUpperCase()}}</h1><!--toUpperCase() 转换为大写-->
+    <h1>地址:{{school.address}}</h1>
+    <h1>学科:{{school.subject()}}</h1>
+    <hr/>
+    <h1>{{school.name,school.address}}</h1> <!--最终展示name-->
+    <h1>{{school.name &&school.address}}</h1><!--最终展示address-->
+    <h1>{{school.name ? 1:2}}</h1> <!--最终展示1-->
+  </div>
+  <script>
+    // 创建一个Vue的实例对象，并传入配置对象
+    const v = new Vue({
+      el: '#root',//el用于指定当前Vue实例为哪个容器服务，值是选择器字符串，选择器的写法类似于jQuery
+      data:{
+        school:{
+          name:'湖南财经工业职业技术学院a',
+          address:'衡阳市狮山路20号',
+          subject:()=>'机械'
+        }
+      }//data是存储数据的地方，为root容器提供数据，值为一个对象，相当于React中的state
+    })
+  </script>
+</body>
+</html>

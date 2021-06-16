@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let p = {
+            lastName:'张',
+            name:'三'
+        }
+        Object.defineProperty(p,'fullName',{
+            set(value){
+                const arr = value.split('-')
+                this.lastName = arr[0]
+                this.name = arr[1]
+            },
+            get(){
+                return this.lastName + '-' + this.name
+            }
+        })
+    </script>
+</body>
+</html>
