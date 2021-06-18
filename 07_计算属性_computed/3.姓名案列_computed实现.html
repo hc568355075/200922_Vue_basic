@@ -5,8 +5,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="../js/vue.js"></script>
 </head>
 <body>
+    <!-- 
+        总结:
+            1.计算属性：要显示的数据不存在，要通过计算得来
+            2.fullName函数底层用到的是对象setter和getter方法
+            3.执行的时机：
+                (1).初始显示会执行一次，得到初始值去显示
+                (2).当依赖的数据发生改变时会被再次调用
+            4.优势：与methods实现相比，内部有缓存机制，效率更高
+            5.备注：计算属性是用于直接读取使用的，不要加()
+     -->
+    <!-- 准备一个容器 -->
+    <div id="root">
+        姓:<input v-model='lastname' ></input>
+        <br><br>
+        名:<input v-model='name' ></input>
+        <div>
+            <span>全名: {{fullName}}</span>
+        </div>
+        全名: <input type="text" v-model='fullName'>
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                lastname:'张',
+                name:'三'
+            },
+            computed:{
+                /*
+                    1.funllName是谁在调用？ ---Vue
+                    2.funllName什么时候调用？   初次渲染会调用、当依赖的属性值发生变化
+                */
+                // 简写  相当于get
+                // fullName(){
+                //     return this.lastname + '-' +this.name
+                // }
+
+                // 完整写法 
+                fullName:{
+                    set(value){//fullName被修改时set被调用，set中this是vm,set会收到修改之后的值
+                        const arr = value.split('-')
+                        this.lastname = arr[0]
+                        this.name = arr[1]
+                    },
+                    get(){//fullName被读取时get被调用，get中this是vm
+                        return this.lastname + '-' +this.name
+                    }
+                }
+            }
+        })
+    </script>
     
 </body>
 </html>
