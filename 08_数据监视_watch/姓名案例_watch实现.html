@@ -13,14 +13,39 @@
     <br><br>
     名: <input type="text" v-model='name'>
     <br><br>
-    <span>全名:???</span>
+    <span>全名:{{fullName}}</span>
   </div>
   <script>
     new Vue({
       el:'#root',
       data:{
         lastName:'张',
-        name:'三'
+        name:'三',
+        fullName:''
+      },
+      watch:{
+        /*
+          1.watch中的lastName什么时候调用？data中的lastName被改变时调用
+          2.watch中的lastName的this是谁？ ---vm
+        */
+        // 检测姓---精简写法
+        // lastName(newValue,oldValue){
+        //   console.log("lastName被修改,newValue,oldValue");
+        //   this.fullName = newValue+ '-' +this.name
+        // },
+
+        // 检测姓---完整写法
+        lastName:{
+          immediate:true,//immediate为true则handler在初始化时，就会调用一次，之后就看lastName的改变
+          handler(newValue,oldValue){
+            this.fullName = newValue + '-' + this.name
+          }
+        },
+        // 监视名---精简写法
+          name(newValue,oldValue){
+            this.fullName = this.lastName + '-' +this.name
+          
+        }
       }
     })
   </script>
