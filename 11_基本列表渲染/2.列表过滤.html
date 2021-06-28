@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基本列表渲染</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <!-- 
+    总结：
+      v-for指令：
+        1.用于展现列表数据
+        2.语法：v-for="(item,index) in arr" :key="item.id"
+        3.可遍历对象：数组、对象、字符串
+   -->
+  <div id="root">
+    <h2>人员列表</h2>
+    <input v-model='keyWord' type="text" placeholder="请输入姓名">
+  <ul>
+    <!-- 使用v-for遍历数组 -->
+    <li v-for='(p,index) in fmtPersons' :key='p.id'>
+      {{p.name}}---{{p.sex}}---{{p.age}}
+    </li>
+  </ul>
+  </ul>
+  </div>
+  <script>
+    new Vue({
+      el:'#root',
+      data:{
+        keyWord:'',
+        persons:[
+          {id:'001',name:'周杰伦',age:'18',sex:'男'},
+          {id:'002',name:'温兆伦',age:'22',sex:'男'},
+          {id:'003',name:'马冬梅',age:'18',sex:'女'},
+          {id:'004',name:'周冬雨',age:'20',sex:'女'}
+        ]
+      },
+      computed:{
+        fmtPersons(){
+          const {persons,keyWord} =this
+          return persons.filter( p => p.name.indexOf(keyWord) !== -1)
+        },
+      }
+      //在watch修改原数据，会导致原数据丢失
+      // watch:{ 
+      //   keyWord(newValue,oldValue){
+      //    this.persons.filters(p=> p.name.indexOf(newValue) !== -1)
+            // this.persons = arr
+      //   }
+
+      // }
+    })
+  </script>
+</body>
+</html>

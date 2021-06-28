@@ -8,6 +8,25 @@
   <script src="../js/vue.js"></script>
 </head>
 <body>
+  <!-- 
+    总结：
+      监视属性watch:
+          1.当被监视的属性变化时，回调函数会自动调用，进行相关操作
+          2.属性必须存在，才能进行监视！！
+          3.监视的两种写法：
+            (1).new Vue时传入watch配置
+            (2).通过vm,$watch监视
+      conputed和watch之间的区别：
+          1.只能是computed能完成的功能，watch都能完成
+          2.watch能完成的功能，computed不一定能完成，列如：watch可以进行异步操作
+      备注：
+        1.所有被Vue所调用(管理)的函数，都不要写箭头函数 ---例如：watch中的函数、commputed中的函数
+        2.所有不被Vue所调用(管理)的函数，都要写箭头函数 ---例如：定时器回调、ajax的回调等等
+        3.watch就是Vue给我提供的一个监视数据改变的手段，至于数据发生改变后，要做什么，得看具体的业务逻辑
+          例如：
+              需要的新值、旧的值作比较，决定接下来要干什么
+              不要值，只要数据改变了，就要发请求等等
+  -->
   <div id="root">
     姓: <input type="text" v-model='lastName'>
     <br><br>
@@ -16,7 +35,7 @@
     <span>全名:{{fullName}}</span>
   </div>
   <script>
-    new Vue({
+    const vm = new Vue({
       el:'#root',
       data:{
         lastName:'张',
@@ -35,19 +54,26 @@
         // },
 
         // 检测姓---完整写法
-        lastName:{
-          immediate:true,//immediate为true则handler在初始化时，就会调用一次，之后就看lastName的改变
-          handler(newValue,oldValue){
-            this.fullName = newValue + '-' + this.name
-          }
-        },
+        // lastName:{
+        //   immediate:true,//immediate为true则handler在初始化时，就会调用一次，之后就看lastName的改变
+        //   handler(newValue,oldValue){
+        //     this.fullName = newValue + '-' + this.name
+        //   }
+        // },
         // 监视名---精简写法
           name(newValue,oldValue){
-            this.fullName = this.lastName + '-' +this.name
-          
+            this.fullName = this.lastName + '-' + newValue
         }
-      }
+      },
     })
+    vm.$watch('lastName',{
+          immediate:true,//immediate为true则handler在初始化时，就会调用一次，之后就看lastName的改变
+          handler(newValue,oldValue){
+            setTimeout(() => {//此处定时器回调一定要写箭头函数
+            this.fullName = newValue + '-' + this.name
+            }, 1000);
+          }
+      })
   </script>
 </body>
 </html>

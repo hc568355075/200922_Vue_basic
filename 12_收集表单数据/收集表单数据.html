@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>收集表单数据</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <!-- 
+    总结：
+      若是： <input type="text"/>，则v-model收集的是value值
+      若是： <input type="radlo"/>，则v-model收集的是value值
+      若是： <input type="checkbox"/>
+                1.没有配置input的value属性,那么收集的就是checkbox（勾选 or 不勾选，是布尔值）
+                2.配置input的value属性：
+                    (1).v-model的初始值是非数组，那么收集的就是checkbox（勾选 or 不勾选，是布尔值）
+                    (2).v-model的初始值是数组，那么收集的就是value组成的数组
+   -->
+  <div id="root">
+    <form @submit.prevent="submit">
+      <label for="account">账号:</label>
+      <input type="text"  id="account"  v-model='nserInfo.account'>
+      <br>
+      <label for="password">密码:</label>
+      <input type="text"  id="password" v-model='nserInfo.password'>
+      <br>
+      性别:<label>男<input type="radio" name="sex" v-model="nserInfo.sex" value="male"></label>
+      <label>女<input type="radio" name="sex" v-model="nserInfo.sex" value="female"></label>
+      <br>
+      爱好:赛车<input type="checkbox" v-model="nserInfo.hobby"value="racing">
+          女人<input type="checkbox" v-model="nserInfo.hobby" value="woman">
+          数码<input type="checkbox" v-model="nserInfo.hobby" value="Digital">
+       <br>
+       所属校区:<select v-model="nserInfo.city">
+               <option value="">请选择校区</option>
+               <option value="beijing">北京</option>
+               <option value="shanghai">上海</option>
+               <option value="shenzhen">深圳</option>
+               <option value="wuhan">武汉</option>
+       </select>
+       <br>
+      其他信息: <textarea cols="30" rows="10" v-model="nserInfo. other"></textarea>
+       <br>
+      <input value="nserInfo.agree" type="checkbox">阅读用户协议<a href="https:/ /www.baidu.com">《用户协议》</a>
+      <br>
+      <button>提交</button>
+    </form>
+    
+  </div>
+  <script>
+    new Vue({
+      el:"#root",
+      data:{
+        nserInfo:{
+          account:"",
+          password:"",
+          sex:"",
+          hobby:[],
+          city:"",
+          other:"",
+          agree:""
+        }
+      },
+      methods:{
+        submit(){
+          console.log(this.nserInfo);
+        }
+      }
+    })
+  </script>
+</body>
+</html>

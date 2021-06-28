@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <h2 :style="{opacity}">世界毁灭了怎么办?</h2>
+    <button @click="death">不活了</button>
+  </div>
+  <script>
+    new Vue({
+      el:'#root',
+      data:{
+        opacity:1
+      },
+      methods: {
+        death(){
+          this.$destroy()//vm还在，只是vm不管理root容器中的数据了，数据的监视也没了
+          console.log(this);
+        }
+      },
+      //Vue实例挂载完毕
+      mounted(){
+        this.timer = setInterval(() => {
+          console.log('执行');
+          this.opacity -= 0.01
+          if(this.opacity <= 0) this.opacity = 1
+        }, 16);
+      },
+      beforeDestroy() {
+        clearInterval(this.timer)
+      },
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>绑定样式</title>
+  <script src="../js/vue.js"></script>
+  <style>
+    .atguigu{
+      border: 3px solid black
+    }
+    .classA{
+      background-color: skyblue;
+    }
+    .classB{
+      color: red;
+    }
+    .classC{
+      text-shadow:2px 2px 3px yellow
+    }
+  </style>
+</head>
+<body>
+  <!-- 
+    总结：
+      1.绑定class样式
+          :calss="xxx" xxx可以是字符串、对象、数组
+      2.绑定style样式
+          :style="{ color: activeColor, fontSize:fontSize + 'px'}
+            其中activeColor/fontSize是data属性
+   -->
+   <div id="root">
+     <!-- class的字符串写法，适用于：类名不确定，要动态获取 -->
+     <h2 class="atguigu" :class='myStyle'>{{title}}</h2>
+
+     <!-- class的对象写法，适用于：类名确定，但不确定用不用  -->
+     <h2 class="atguigu" :class='{classA:hasA,classB:hasB}'>{{title}}</h2>
+
+     <!-- class的三元表达式写法，适用于：类名确定，但不确定用不用  -->
+     <h2 class="atguigu" :class="hasA ? 'classA' : ''">{{title}}</h2>
+
+      <!-- class的数组写法，适用于：同时应用多个class  -->
+      <h2 class="atguigu" :class="['classA','classB','classC']">{{title}}</h2>
+      <h2 class="atguigu" :class="[a,b,c]">{{title}}</h2>
+
+      <!-- 绑定style -->
+      <h2 class="atguigu" :class="[a,b,c]" :style="{fontSize:size+'px' }">{{title}}</h2>
+   </div>
+   <script>
+     new Vue({
+       el:'#root',
+       data:{
+        title:'今天天气不是很好',
+        myStyle:'classA',
+        hasA:true,
+        hasB:true,
+        a:'classA',
+        b:'classB',
+        c:'classC',
+        size:40
+       }
+     })
+   </script>
+</body>
+</html>
